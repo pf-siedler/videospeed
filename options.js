@@ -11,6 +11,7 @@ var tcDefaults = {
   rewindKeyCode: 90,    // default: Z
   advanceKeyCode: 88,   // default: X
   displayKeyCode: 86,   // default: V
+  useArrow: true,
   rememberSpeed: false, // default: false
   startHidden: false,   // default: false
   blacklist: `
@@ -103,6 +104,7 @@ function save_options() {
   var fastKeyCode   = document.getElementById('fastKeyInput').keyCode;
   var displayKeyCode = document.getElementById('displayKeyInput').keyCode;
   var rememberSpeed = document.getElementById('rememberSpeed').checked;
+  var useArrow = document.getElementById('useArrow').checked;
   var startHidden = document.getElementById('startHidden').checked;
   var blacklist     = document.getElementById('blacklist').value;
 
@@ -131,6 +133,7 @@ function save_options() {
     fastKeyCode:    fastKeyCode,
     displayKeyCode: displayKeyCode,
     rememberSpeed:  rememberSpeed,
+    useArrow:       useArrow,
     startHidden:    startHidden,
     blacklist:      blacklist.replace(/^\s+|\s+$/gm,'')
   }, function() {
@@ -158,6 +161,7 @@ function restore_options() {
     updateShortcutInputText('fastKeyInput', storage.fastKeyCode);
     updateShortcutInputText('displayKeyInput', storage.displayKeyCode);
     document.getElementById('rememberSpeed').checked = storage.rememberSpeed;
+    document.getElementById('useArrow').checked = storage.useArrow;
     document.getElementById('startHidden').checked = storage.startHidden;
     document.getElementById('blacklist').value = storage.blacklist;
   });

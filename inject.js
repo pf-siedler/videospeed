@@ -15,6 +15,7 @@ chrome.extension.sendMessage({}, function(response) {
       displayKeyCode: 86,   // default: V
       fastKeyCode: 71,      // default: G
       rememberSpeed: false, // default: false
+      useArrow: true,       //default: true
       startHidden: false,   // default: false
       blacklist: `
         www.instagram.com
@@ -41,6 +42,7 @@ chrome.extension.sendMessage({}, function(response) {
     tc.settings.advanceKeyCode = Number(storage.advanceKeyCode);
     tc.settings.rememberSpeed = Boolean(storage.rememberSpeed);
     tc.settings.startHidden = Boolean(storage.startHidden);
+    tc.settings.useArrow = Boolean(storage.useArrow);
     tc.settings.blacklist = String(storage.blacklist);
 
     initializeWhenReady(document);
@@ -255,6 +257,10 @@ chrome.extension.sendMessage({}, function(response) {
           runAction('display', document, true)
         } else if (keyCode == tc.settings.fastKeyCode) {
           runAction('fast', document, true);
+        } else if (keyCode == 37 && tc.settings.useArrow) {
+          runAction('rewindArrow', document, true)
+        } else if (keyCode == 39 && tc.settings.useArrow) {
+          runAction('advanceArrow', document, true)
         }
 
         return false;
@@ -319,13 +325,14 @@ chrome.extension.sendMessage({}, function(response) {
     videoTags.forEach(function(v) {
       var id = v.dataset['vscid'];
       var controller = document.querySelector(`div[data-vscid="${id}"]`);
+      var native = v.hasAttribute('controls');
 
       showController(controller);
 
       if (!v.classList.contains('vsc-cancelled')) {
-        if (action === 'rewind') {
+        if (action === 'rewind' || (native && action === 'rewindArrow')) {
           v.currentTime -= tc.settings.rewindTime;
-        } else if (action === 'advance') {
+        } else if (action === 'advance' || (native && action === 'advanceArrow')) {
           v.currentTime += tc.settings.advanceTime;
         } else if (action === 'faster') {
           // Maximum playback speed in Chrome is set to 16:

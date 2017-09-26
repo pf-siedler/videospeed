@@ -1,3 +1,9 @@
+#### @pf-siedler edit
+chromeの既定動画プレーヤーを利用した際に，矢印キーの左右で戻る・進むができるようにしました．
+
+以下，本家のREADME．
+* * * * * *
+
 # The science of accelerated playback
 
 **TL;DR: faster playback translates to better engagement and retention.**
